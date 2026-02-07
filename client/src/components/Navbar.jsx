@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Rocket, Bell, LayoutDashboard, Home, Telescope, Menu, X } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const location = useLocation();
@@ -8,10 +9,13 @@ const Navbar = () => {
 
   const isActive = (path) => location.pathname === path;
 
+  const { user } = useAuth();
+
   const navItems = [
     { name: 'Home', path: '/', icon: <Home size={18} /> },
     { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={18} /> },
-    { name: 'Watchlist', path: '/watchlist', icon: <Telescope size={18} /> },
+    // Show Watchlist only for authenticated users
+    ...(user ? [{ name: 'Watchlist', path: '/watchlist', icon: <Telescope size={18} /> }] : []),
     { name: 'Alerts', path: '/alerts', icon: <Bell size={18} /> },
   ];
 
@@ -52,10 +56,16 @@ const Navbar = () => {
               <Bell size={18} className="sm:w-5 sm:h-5" />
               <span className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-red-500 ring-2 ring-space-950" />
             </button>
-            <button className="hidden sm:flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-200">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-inner" />
-              <span className="text-sm font-medium text-gray-300">Profile</span>
-            </button>
+            {user ? (
+              <button className="hidden sm:flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-200">
+                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-inner" />
+                <span className="text-sm font-medium text-gray-300">{user.username || 'Profile'}</span>
+              </button>
+            ) : (
+              <Link to="/login" className="hidden sm:inline-flex items-center gap-2 pl-3 pr-4 py-2 rounded-xl border border-white/10 bg-accent-purple/90 text-white hover:bg-accent-purple/80 transition-all duration-200">
+                <span className="text-sm font-medium">Login</span>
+              </Link>
+            )}
             <button
               type="button"
               className="md:hidden p-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/8 transition-colors"

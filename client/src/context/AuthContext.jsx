@@ -21,13 +21,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const res = await api.post('/auth/login', { email, password });
+    const res = await api.post('/auth/login', { email: email.toLowerCase(), password });
     setUser(res.data.user);
     return res.data;
   };
 
   const register = async (userData) => {
-    const res = await api.post('/auth/register', userData);
+    const payload = { ...userData, email: (userData.email || '').toLowerCase() };
+    const res = await api.post('/auth/register', payload);
     setUser(res.data.user);
     return res.data;
   };
