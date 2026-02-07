@@ -241,7 +241,7 @@ const AsteroidCard = ({ data, showRemove = false, onRemoved }) => {
                 <Trash2 className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">{isLoading ? 'Removing...' : 'Remove'}</span>
               </button>
-            ) : (
+            ) : user ? (
               <button
                 onClick={handleToggleWatchlist}
                 disabled={isLoading}
@@ -258,7 +258,7 @@ const AsteroidCard = ({ data, showRemove = false, onRemoved }) => {
                 <Star className={`h-3.5 w-3.5 ${isWatchlisted ? 'fill-accent-purple' : ''}`} />
                 <span className="hidden sm:inline">{isLoading ? 'Updating...' : (isWatchlisted ? 'Watching' : 'Watch')}</span>
               </button>
-            )}
+            ) : null}
           </div>
         </div>
       </CardContent>

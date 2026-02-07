@@ -13,7 +13,12 @@ const userSchema = new mongoose.Schema({
     asteroidId: String,
     name: String,
     addedAt: { type: Date, default: Date.now }
-  }]
+  }],
+  alertPreferences: {
+    minRiskScore: { type: Number, default: 50 },
+    notifyImminent: { type: Boolean, default: true },
+    emailFrequency: { type: String, enum: ['daily', 'weekly', 'never'], default: 'daily' }
+  }
 });
 
 export default mongoose.model('User', userSchema);
