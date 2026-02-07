@@ -26,6 +26,7 @@ function App() {
             <Route path="/dashboard" element={<div className="pt-14 sm:pt-16"><Dashboard /></div>} />
             <Route path="/watchlist" element={<div className="pt-14 sm:pt-16"><Watchlist /></div>} />
             <Route path="/alerts" element={<Alerts />} />
+            
           </Routes>
         </main>
       </div>
